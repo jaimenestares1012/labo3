@@ -23,7 +23,7 @@ def prediccion():
          
         json1 = request.get_json()  
         print("este es mi json", json1)
-        abierta=json1["abierta"]
+        abierta=json1["creditoAbierto"]
         moroso=json1["moroso"]
         trabajo=json1["trabajo"]
         result = algoritmo().algopredictivo(abierta,moroso,trabajo)
