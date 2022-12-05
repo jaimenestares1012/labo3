@@ -3,14 +3,12 @@ import json
 
 client = MongoClient("mongodb+srv://user_jaime:XhA7pqTDWKfQy6Nh@micluster.pns9q58.mongodb.net")
 db  = client.get_database("tesis-metro")
-# cliente=MongoClient('localhost')
-# db=cliente['tesis-won']
 
 def BuscarMongoXNombre(coleccion ,valor):
-    col = db["lacteos"]
+    col = db[coleccion]
     try:
-        id = col.find_one({"_id": "572685"})
-        print("sñssssssssssssssss", id)
+        col.create_index([('nombre', 'text')])
+        id = col.find({"$text": {"$search": valor}})
         return id
     except NameError:
         print("ERROR")
@@ -27,6 +25,5 @@ class reporteTipo1():
 
     def logica(self):
         busqueda  = BuscarMongoXNombre(self.categoria, self.nombre)
-        # array = list(busqueda)
-        # return array
-        return {"goo": "sssssssssssssssssssssssssssssss"}   
+        array = list(busqueda)
+        return array 
