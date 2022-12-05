@@ -2,7 +2,7 @@ from pymongo import MongoClient
 import json
 
 client = MongoClient("mongodb+srv://user_jaime:XhA7pqTDWKfQy6Nh@micluster.pns9q58.mongodb.net")
-db  = client.get_database("tesis-won")
+db  = client.get_database("tesis-tottus")
 
 def BuscarMongoXNombre(coleccion ,valor):
     col = db[coleccion]
@@ -15,8 +15,10 @@ def BuscarMongoXNombre(coleccion ,valor):
         print(NameError)
 
 
-class reporteTipo1():
-    def __init__(self, nombre, categoria):
+
+
+class reporteTipo2():
+    def __init__(self, nombre, categoria,):
         self.nombre = nombre
         self.categoria = categoria
 

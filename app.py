@@ -2,6 +2,7 @@ from flask import Flask, request
 
 from flask_cors import CORS
 from reporting import reporteTipo1
+from reportingtottus import reporteTipo2
 
 app = Flask(__name__)
 CORS(app)
@@ -24,6 +25,19 @@ def inicio(tipo):
         }
         return data
     elif tipo == 2:
+        print("es tipo 2", tipo)
+        json = request.get_json()
+        producto = json["nombreProducto"]
+        categoria = json["categoria"]
+        inicio = reporteTipo2( producto, categoria) 
+        datos = inicio.logica()
+        print("datos", datos)
+        data={
+            "codRes": "00",
+            "detalle": "éxito",
+            "data": datos
+        }
+        return data
         print("tipo 2")
     else:
         return "tipo incorrecto"
