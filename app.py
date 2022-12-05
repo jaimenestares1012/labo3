@@ -6,10 +6,25 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.route('/get/data/<int:tipo>', methods=['GET', 'POST'])
+@app.route('/get/data/<int:tipo>', methods=[ 'POST'])
 def inicio(tipo):
-    print(tipo, "este es mi tipo")
-    return {"message": "proyectoModificado"}
+    if tipo == 1:
+        print("es tipo 1", tipo)
+        json = request.get_json()
+        producto = json["nombreProducto"]
+        categoria = json["categoria"]
+        # inicio = reporteTipo1( producto, categoria) 
+        # datos = inicio.logica()
+        data={
+            "codRes": "00",
+            "detalle": "éxito",
+            # "data": datos
+        }
+        return data
+    elif tipo == 2:
+        print("tipo 2")
+    else:
+        return "tipo incorrecto"
 
 
 if __name__ == "__main__":
