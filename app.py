@@ -11,6 +11,16 @@ CORS(app)
 def index():
     return {"message": "dededede"}
 
+@app.route('/test', methods=[ 'POST'])
+def index2():
+    json = request.get_json()
+    producto = json["nombreProducto"]
+    categoria = json["categoria"]
+    return {"producto": producto,
+            "categoria": categoria}
+
+
+
 @app.route('/get/data/<int:tipo>', methods=[ 'POST'])
 def inicio(tipo):
     if tipo == 1:
