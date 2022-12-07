@@ -7,6 +7,9 @@ from reportingMetro import reporteTipo3
 app = Flask(__name__)
 CORS(app)
 
+@app.route('/', methods=[ 'GET'])
+def index():
+    return {"message": "dededede"}
 
 @app.route('/get/data/<int:tipo>', methods=[ 'POST'])
 def inicio(tipo):
