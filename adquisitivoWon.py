@@ -84,6 +84,7 @@ class poderWon():
             dataxdia =[]
             contador = len(data)
             it = 1
+            suma = 0
             for b in data:
                 try:
                     price = b[a]
@@ -94,6 +95,7 @@ class poderWon():
                         "producto": b["nombre"],
                         "precio": precioLimpio
                     }
+                    suma = suma + precioLimpio
                     dataxdia.append(datos)
                     datos = {}
                 except:
@@ -101,6 +103,7 @@ class poderWon():
                 
                 dataParcial = {
                     "fecha": a,
+                    "montoTotal": suma,
                     "productosXFecha":dataxdia
                 }
                 
