@@ -90,7 +90,11 @@ class poderWon():
                     price = b[a]
                     price = price.split("S/")
                     precioLimpio = price[1].replace(" ", "")
-                    precioLimpio = float(precioLimpio)
+                    if "x" in precioLimpio:
+                        precioRoto = precioLimpio.split("x")
+                        precioLimpio = precioRoto[0]
+                    else:
+                        precioLimpio = float(precioLimpio)
                     sumaParcial = int(b["cantidad"]) * float(precioLimpio)
                     datos = {
                         "producto": b["nombre"],
