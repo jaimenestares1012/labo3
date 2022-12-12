@@ -77,7 +77,8 @@ def poderAdquisitivo(tipo):
         producto = json["nombreProducto"]
         categoria = json["categoria"]
         productos= json["productosList"]
-        inicio = poderWon( producto, categoria, productos) 
+        numeroDias = json["numeroDias"]
+        inicio = poderWon(numeroDias, productos) 
         datos = inicio.logica()
         data={
             "codRes": "00",
@@ -90,6 +91,7 @@ def poderAdquisitivo(tipo):
         json = request.get_json()
         producto = json["nombreProducto"]
         categoria = json["categoria"]
+        numeroDias = json["numeroDias"]
         inicio = reporteTipo2( producto, categoria) 
         datos = inicio.logica()
         print("datos", datos)

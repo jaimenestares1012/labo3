@@ -27,9 +27,8 @@ def BuscarMongo(coleccion ,valor):
     print("buscat")
 
 class poderWon():
-    def __init__(self, nombre, categoria, productos):
-        self.nombre = nombre
-        self.categoria = categoria
+    def __init__(self, numeroDias, productos):
+        self.numeroDias = numeroDias
         self.productos = productos
 
     def teardown_method(self):
@@ -38,7 +37,7 @@ class poderWon():
     def logica(self):
         fechasDisponibles = []
         i = 1
-        dias = 20
+        dias = int(self.numeroDias)
         while i <= dias:
             fechaDateTime = datetime.now() - timedelta(i)
             fechaExtraccion = fechaDateTime.strftime("%Y-%m-%d %H:%M:%S") 
@@ -50,6 +49,7 @@ class poderWon():
         data = []
         for a in self.productos:
             busquedaProductos = BuscarMongo(a["typeCategory"], a["prod"])
+            busquedaProductos["cantidad"] = a["cantidad"]
             data.append(busquedaProductos)
         dataxdiaGlobal =[]
         # for b in data:
@@ -78,7 +78,7 @@ class poderWon():
         #         dataParcial = {}
         #         print("<-------------- FIN  ------------------->")
         
-
+        print("data", data)
         for a in fechasDisponibles:
             print(" FECHAAA ---->", a)
             dataxdia =[]
@@ -91,11 +91,14 @@ class poderWon():
                     price = price.split("S/")
                     precioLimpio = price[1].replace(" ", "")
                     precioLimpio = float(precioLimpio)
+                    sumaParcial = int(b["cantidad"]) * float(precioLimpio)
                     datos = {
                         "producto": b["nombre"],
-                        "precio": precioLimpio
+                        "precio": precioLimpio,
+                        "cantidad": b["cantidad"],
+                        "sumaParcial": sumaParcial
                     }
-                    suma = suma + precioLimpio
+                    suma = suma + sumaParcial
                     dataxdia.append(datos)
                     datos = {}
                 except:
@@ -104,6 +107,7 @@ class poderWon():
                 dataParcial = {
                     "fecha": a,
                     "montoTotal": suma,
+                    "numeroProductos": len(dataxdia),
                     "productosXFecha":dataxdia
                 }
                 
