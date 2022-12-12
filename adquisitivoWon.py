@@ -97,6 +97,7 @@ class poderWon():
                         precioLimpio = float(precioLimpio)
                     sumaParcial = int(b["cantidad"]) * float(precioLimpio)
                     datos = {
+                        "order": contador,
                         "producto": b["nombre"],
                         "url": b["url"],
                         "precio": precioLimpio,
