@@ -36,7 +36,7 @@ class poderWon():
 
     def logica(self):
         fechasDisponibles = []
-        i = 1
+        i = 0
         dias = int(self.numeroDias)
         while i <= dias:
             fechaDateTime = datetime.now() - timedelta(i)
