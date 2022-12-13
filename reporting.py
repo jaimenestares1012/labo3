@@ -51,23 +51,24 @@ class reporteTipo1():
                         precioLimpio = float(precioRoto[0])
                     else:
                         precioLimpio = float(precioLimpio)
-                    datos = {
-                        b: precioLimpio,
-                    }
+                    # datos = {
+                    #     b: precioLimpio,
+                    # }
+                    a[b] = precioLimpio
                     # print("datos", datos)
-                    preciosLimpios.append(datos)
+                    # preciosLimpios.append(datos)
                     datos = {}
                 except: 
                     pass
             response={}
-            # filtered = filter(lambda i: i[0] in selection, a.items())
-            # listPrecios = [dict(list(filtered))]
+            filtered = filter(lambda i: i[0] in selection, a.items())
+            listPrecios = [dict(list(filtered))]
             response = {
                 "nombre" : a["nombre"],
                 "url": a["url"],
                 "categoria": a["categoria"],
                 "tienda": a["tienda"],
-                "listPrecios": preciosLimpios
+                "listPrecios": listPrecios
             }
             arregloFiltrado.append(response)
         return arregloFiltrado 
