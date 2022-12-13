@@ -39,15 +39,35 @@ class reporteTipo1():
                 fechaExtraccionclean = fechaExtraccion2[0]
                 selection.append(fechaExtraccionclean)
                 i = i + 1
+
+            preciosLimpios = []
+            for b in selection:
+                try:
+                    price = a[b]
+                    price = price.split("S/")
+                    precioLimpio = price[1].replace(" ", "")
+                    if "x" in precioLimpio:
+                        precioRoto = precioLimpio.split("x")
+                        precioLimpio = float(precioRoto[0])
+                    else:
+                        precioLimpio = float(precioLimpio)
+                    datos = {
+                        b: precioLimpio,
+                    }
+                    # print("datos", datos)
+                    preciosLimpios.append(datos)
+                    datos = {}
+                except: 
+                    pass
             response={}
-            filtered = filter(lambda i: i[0] in selection, a.items())
-            listPrecios = [dict(list(filtered))]
+            # filtered = filter(lambda i: i[0] in selection, a.items())
+            # listPrecios = [dict(list(filtered))]
             response = {
                 "nombre" : a["nombre"],
                 "url": a["url"],
                 "categoria": a["categoria"],
                 "tienda": a["tienda"],
-                "listPrecios": listPrecios
+                "listPrecios": preciosLimpios
             }
             arregloFiltrado.append(response)
         return arregloFiltrado 
