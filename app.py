@@ -30,9 +30,9 @@ def inicio(tipo):
         json = request.get_json()
         producto = json["nombreProducto"]
         categoria = json["categoria"]
-        inicio = reporteTipo1( producto, categoria) 
+        numeroDias = json["numeroDias"]
+        inicio = reporteTipo1( producto, categoria, numeroDias) 
         datos = inicio.logica()
-        print("datos", datos)
         data={
             "codRes": "00",
             "detalle": "éxito",
