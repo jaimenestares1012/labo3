@@ -6,6 +6,7 @@ from reportingtottus import reporteTipo2
 from reportingMetro import reporteTipo3
 
 from adquisitivoWon import poderWon
+from utils import getCatalogos
 app = Flask(__name__)
 CORS(app)
 
@@ -121,6 +122,23 @@ def poderAdquisitivo(tipo):
         return data
     else:
         return "tipo incorrecto"
+
+
+@app.route('/catalogos', methods=[ 'POST'])
+def catalogos():
+    json = request.get_json()
+    colecciones = json["colecciones"]
+    categorias = json["categorias"]
+    try:
+        instancia = getCatalogos(colecciones, categorias) 
+        data = instancia.logica()
+        response = {
+            "codRes": "00",
+            "data": data
+            }
+        return response
+    except:
+        return { "codRes": "99", "data": "error interno" }
 
 
 
