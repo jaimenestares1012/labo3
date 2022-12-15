@@ -111,7 +111,7 @@ class poderWon():
                 
                 dataParcial = {
                     "fecha": a,
-                    "montoTotal": suma,
+                    "montoTotal": round(suma, 2),
                     "numeroProductos": len(dataxdia),
                     "productosXFecha":dataxdia
                 }
