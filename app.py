@@ -80,6 +80,9 @@ def poderAdquisitivo(tipo):
         numeroDias = json["numeroDias"]
         inicio = poderWon(numeroDias, productos) 
         datos = inicio.logica()
+        datos["title"] = json["title"]
+        datos["creador"] = json["creador"]
+        datos["tienda"] = json["tienda"]
         data={
             "codRes": "00",
             "detalle": "éxito",
