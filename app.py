@@ -74,17 +74,18 @@ def inicio(tipo):
 def poderAdquisitivo(tipo):
     if tipo == 1:
         json = request.get_json()
-        producto = json["nombreProducto"]
-        categoria = json["categoria"]
+        creador = json["creador"]
+        title = json["title"]
+        tienda = json["tienda"]
         productos= json["productosList"]
         numeroDias = json["numeroDias"]
         inicio = poderWon(numeroDias, productos) 
         datos = inicio.logica()
-        datos["title"] = json["title"]
-        datos["creador"] = json["creador"]
-        datos["tienda"] = json["tienda"]
         data={
             "codRes": "00",
+            "tienda": tienda,
+            "creador": creador,
+            "title": title,
             "detalle": "éxito",
             "data": datos
         }
