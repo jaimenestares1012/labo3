@@ -101,9 +101,9 @@ class poderWon():
                         "url": b["url"],
                         "precio": precioLimpio,
                         "cantidad": b["cantidad"],
-                        "sumaParcial": sumaParcial
+                        "sumaParcial": round(sumaParcial, 2)
                     }
-                    suma = suma + sumaParcial
+                    suma = suma + round(sumaParcial, 2)
                     dataxdia.append(datos)
                     datos = {}
                 except:
