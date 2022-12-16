@@ -5,11 +5,14 @@ from datetime import datetime, timedelta
 client = MongoClient("mongodb+srv://user_jaime:XhA7pqTDWKfQy6Nh@micluster.pns9q58.mongodb.net")
 db  = client.get_database("tesis-won")
 
-def BuscarMongoXNombre(coleccion ,valor):
+def BuscarMongoXNombre(coleccion ,valor, limite):
     col = db[coleccion]
     try:
         col.create_index([('nombre', 'text')])
-        id = col.find({"$text": {"$search": valor}})
+        id = col.find({"$text": {"$search": valor}}).limit(int(limite))
+        print("<------------->")
+        print(id)
+        print("<-------------->")
         return id
     except NameError:
         print("ERROR")
@@ -17,15 +20,16 @@ def BuscarMongoXNombre(coleccion ,valor):
 
 
 class reporteTipo1():
-    def __init__(self, nombre, categoria, numeroDias):
+    def __init__(self, nombre, categoria, numeroDias, numeroProductos):
         self.nombre = nombre
         self.categoria = categoria
         self.numeroDias = numeroDias
+        self.numeroProductos = numeroProductos
     def teardown_method(self):
         print("aea")
 
     def logica(self):
-        busqueda  = BuscarMongoXNombre(self.categoria, self.nombre)
+        busqueda  = BuscarMongoXNombre(self.categoria, self.nombre, self.numeroProductos)
         array = list(busqueda)
         arregloFiltrado = []
         for a in array:

@@ -27,12 +27,22 @@ def index2():
 @app.route('/get/data/<int:tipo>', methods=[ 'POST'])
 def inicio(tipo):
     if tipo == 1:
+
         print("es tipo 1", tipo)
         json = request.get_json()
         producto = json["nombreProducto"]
         categoria = json["categoria"]
-        numeroDias = json["numeroDias"]
-        inicio = reporteTipo1( producto, categoria, numeroDias) 
+        
+        try:
+            numeroDias = json["numeroDias"]
+        except:
+            numeroDias = 10
+        
+        try:
+            numeroProductos = json["numeroProductos"]
+        except:
+            numeroProductos = 5
+        inicio = reporteTipo1( producto, categoria, numeroDias, numeroProductos) 
         datos = inicio.logica()
         data={
             "codRes": "00",
