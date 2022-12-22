@@ -7,6 +7,7 @@ from reportingMetro import reporteTipo3
 
 from adquisitivoWon import poderWon
 from utils import getCatalogos
+from utils import usuarios
 app = Flask(__name__)
 CORS(app)
 
@@ -185,6 +186,46 @@ def datosCanasta(idCanasta):
         return { "codRes": "99", "data": "error interno" }
     
 
+@app.route('/registrarBolsa/<int:tipo>', methods=[ 'POST'])
+def registrarBolsa(tipo):
+    if tipo == 1:
+        json = request.get_json()
+        try:
+            instancia = usuarios(json) 
+            data = instancia.logica()
+            if data:
+                response ={
+                    "codRes": "00",
+                    "data": "correct"
+                }
+                return response
+            else:
+                response = {
+                    "codRes": "99",
+                    "data": "incorrect"
+                }
+                return response
+        except:
+            return { "codRes": "99", "data": "error interno" }
+    if tipo == 2:
+        print("tipo 2")
+        # json = request.get_json()
+        # colecciones = json["colecciones"]
+        # categorias = json["categorias"]
+        try:
+            print("")
+            # instancia = getCatalogos(colecciones, categorias) 
+            # data = instancia.logica2()
+            # response = {
+            #     "codRes": "00",
+            #     "data": data
+            #     }
+            # return response
+        except:
+            return { "codRes": "99", "data": "error interno" }
+    else:
+        print("tipo incorrecto")
+        return { "codRes": "99", "data": "tipo incorrecto" }
 
 
 

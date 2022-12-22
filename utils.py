@@ -26,6 +26,16 @@ def BuscarMongoGeneric( valor, coleccion, valorBusqueda):
     except NameError:
         print(NameError)
 
+
+def InsertarMongo(coleccion ,valor):
+    col = db[coleccion]
+    try:
+        id = col.insert_one(valor)
+        return id
+    except NameError:
+        print("ERROR")
+        print(NameError)
+
 class getCatalogos():
     def __init__(self, colecciones, categorias):
         self.colecciones = colecciones
@@ -66,5 +76,30 @@ class getCatalogos():
         busqueda  = BuscarMongoGeneric(  self.categorias,  self.colecciones , "_id")
         return busqueda
 
+
+
+class usuarios():
+    def __init__(self, json):
+        self.json = json
+
+    def logica(self):
+
+        print("self.json", self.json["title"])
+        print("self.tiendaSelect", self.json["tiendaSelect"])
+        print("self.creador", self.json["creador"])
+        print("self.idCreador", self.json["idCreador"])
+        print("self._id", self.json["_id"])
+        # coleccionCompleta = []
+
+        json = {
+            "_id": self.json["_id"],
+            "tiendaSelect": self.json["tiendaSelect"],
+            "creador": self.json["creador"], 
+            "idCreador": self.json["idCreador"],
+            "title": self.json["title"]
+        }
+        res = InsertarMongo("bolsaProductos",json)
+        print("resp", res)
+        return res
 
 
