@@ -5,13 +5,6 @@ import json
 client = MongoClient("mongodb+srv://user_jaime:XhA7pqTDWKfQy6Nh@micluster.pns9q58.mongodb.net")
 db  = client.get_database("catalogos")
 
-def BuscarMongoCatalogos(valor, coleccion):
-    col = db[coleccion]
-    try:
-        id = col.find_one({"idTienda": valor})
-        return id
-    except NameError:
-        print(NameError)
 
 def BuscarMongoCatalogos2(valor, coleccion):
     col = db[coleccion]
@@ -22,6 +15,16 @@ def BuscarMongoCatalogos2(valor, coleccion):
         print(NameError)
 
 
+def BuscarMongoGeneric( valor, coleccion, valorBusqueda):
+    print("valor", valor)
+    print("coleccion", coleccion)
+    print("valorBusqueda", valorBusqueda)
+    col = db[coleccion]
+    try:
+        id = col.find_one({valorBusqueda : str(valor) })
+        return id
+    except NameError:
+        print(NameError)
 
 class getCatalogos():
     def __init__(self, colecciones, categorias):
@@ -31,7 +34,7 @@ class getCatalogos():
     def logica(self):
         coleccionCompleta = []
         for tienda in self.colecciones:
-            busqueda  = BuscarMongoCatalogos( tienda , self.categorias)
+            busqueda  = BuscarMongoGeneric( tienda ,self.categorias, "idTienda")
             response = {
                 "idTienda": busqueda["idTienda"],
                 "categorias": busqueda["coleccion"]
@@ -57,3 +60,11 @@ class getCatalogos():
             
         print("buscando el fin")
         return coleccionCompleta
+
+
+    def busquedaId(self):
+        busqueda  = BuscarMongoGeneric(  self.categorias,  self.colecciones , "_id")
+        return busqueda
+
+
+

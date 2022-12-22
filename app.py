@@ -170,6 +170,22 @@ def catalogos(tipo):
         return { "codRes": "99", "data": "tipo incorrecto" }
 
 
+@app.route('/datosCanasta/<int:idCanasta>', methods=[ 'GET'])
+def datosCanasta(idCanasta):
+    print(idCanasta)
+    try:
+        instancia = getCatalogos("bolsaProductos", idCanasta) 
+        data = instancia.busquedaId()
+        response = {
+            "codRes": "00",
+            "data": data
+            }
+        return response
+    except:
+        return { "codRes": "99", "data": "error interno" }
+    
+
+
 
 
 if __name__ == "__main__":
