@@ -13,6 +13,14 @@ def BuscarMongoCatalogos(valor, coleccion):
     except NameError:
         print(NameError)
 
+def BuscarMongoCatalogos2(valor, coleccion):
+    col = db[coleccion]
+    try:
+        id = col.find({"creador": valor})
+        return id
+    except NameError:
+        print(NameError)
+
 
 
 class getCatalogos():
@@ -32,4 +40,20 @@ class getCatalogos():
             print("")
             print(response)
             coleccionCompleta.append(response)
+        return coleccionCompleta
+
+    def logica2(self):
+        coleccionCompleta = []
+        for tienda in self.colecciones:
+            busqueda = []
+            print("<------------- INICIO --------------------->")
+            busqueda  = BuscarMongoCatalogos2( tienda , self.categorias)
+            array = list(busqueda)
+            response = {
+                "creador": tienda,
+                "data": array
+            }
+            coleccionCompleta.append(response)
+            
+        print("buscando el fin")
         return coleccionCompleta

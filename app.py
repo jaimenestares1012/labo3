@@ -134,21 +134,40 @@ def poderAdquisitivo(tipo):
         return "tipo incorrecto"
 
 
-@app.route('/catalogos', methods=[ 'POST'])
-def catalogos():
-    json = request.get_json()
-    colecciones = json["colecciones"]
-    categorias = json["categorias"]
-    try:
-        instancia = getCatalogos(colecciones, categorias) 
-        data = instancia.logica()
-        response = {
-            "codRes": "00",
-            "data": data
-            }
-        return response
-    except:
-        return { "codRes": "99", "data": "error interno" }
+@app.route('/catalogos/<int:tipo>', methods=[ 'POST'])
+def catalogos(tipo):
+    if tipo == 1:
+        json = request.get_json()
+        colecciones = json["colecciones"]
+        categorias = json["categorias"]
+        try:
+            instancia = getCatalogos(colecciones, categorias) 
+            data = instancia.logica()
+            response = {
+                "codRes": "00",
+                "data": data
+                }
+            return response
+        except:
+            return { "codRes": "99", "data": "error interno" }
+    if tipo == 2:
+        print("tipo 2")
+        json = request.get_json()
+        colecciones = json["colecciones"]
+        categorias = json["categorias"]
+        try:
+            instancia = getCatalogos(colecciones, categorias) 
+            data = instancia.logica2()
+            response = {
+                "codRes": "00",
+                "data": data
+                }
+            return response
+        except:
+            return { "codRes": "99", "data": "error interno" }
+    else:
+        print("tipo incorrecto")
+        return { "codRes": "99", "data": "tipo incorrecto" }
 
 
 
