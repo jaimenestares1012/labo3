@@ -102,7 +102,7 @@ class usuarios():
     def logica(self):
         json = {
             "_id": self.json["_id"],
-            "tiendaSelect": self.json["tiendaSelect"],
+            "tienda": self.json["tiendaSelect"],
             "creador": self.json["creador"], 
             "idCreador": self.json["idCreador"],
             "title": self.json["title"]
