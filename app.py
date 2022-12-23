@@ -6,6 +6,8 @@ from reportingtottus import reporteTipo2
 from reportingMetro import reporteTipo3
 
 from adquisitivoWon import poderWon
+
+from resumenGraficos import resumenRep
 from utils import getCatalogos, usuarios
 
 app = Flask(__name__)
@@ -251,6 +253,48 @@ def insertProductos(tipo):
                 response = {
                     "codRes": "99",
                     "data": "incorrect"
+                }
+                return response
+        except:
+            return { "codRes": "99", "data": "error interno" }
+    if tipo == 2:
+        print("tipo 2")
+        # json = request.get_json()
+        # colecciones = json["colecciones"]
+        # categorias = json["categorias"]
+        try:
+            print("")
+            # instancia = getCatalogos(colecciones, categorias) 
+            # data = instancia.logica2()
+            # response = {
+            #     "codRes": "00",
+            #     "data": data
+            #     }
+            # return response
+        except:
+            return { "codRes": "99", "data": "error interno" }
+    else:
+        print("tipo incorrecto")
+        return { "codRes": "99", "data": "tipo incorrecto" }
+
+
+@app.route('/resumen/<int:tipo>', methods=[ 'POST'])
+def resumen(tipo):
+    if tipo == 1:
+        json = request.get_json()
+        try:
+            instancia = resumenRep(json) 
+            data = instancia.logica()
+            if data:
+                response ={
+                    "codRes": "00",
+                    "data": data
+                }
+                return response
+            else:
+                response = {
+                    "codRes": "99",
+                    "data": "null"
                 }
                 return response
         except:
