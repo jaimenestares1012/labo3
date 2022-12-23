@@ -6,6 +6,26 @@ client = MongoClient("mongodb+srv://user_jaime:XhA7pqTDWKfQy6Nh@micluster.pns9q5
 db  = client.get_database("catalogos")
 
 
+def UpdateMongo(coleccion, valor, id):
+    col = db[coleccion]
+    try:
+        res  =  col.update_one({
+            "_id": id
+        },{
+            "$set":{
+                "productosList": valor,
+            }
+        }, upsert=True)
+        print("Update Correct - Wong", valor)
+        return res
+        # print("UpdateMongo")
+    except NameError:
+        print("ERROR")
+        print(NameError)
+        return False
+
+
+
 def BuscarMongoCatalogos2(valor, coleccion):
     col = db[coleccion]
     try:
@@ -16,9 +36,6 @@ def BuscarMongoCatalogos2(valor, coleccion):
 
 
 def BuscarMongoGeneric( valor, coleccion, valorBusqueda):
-    print("valor", valor)
-    print("coleccion", coleccion)
-    print("valorBusqueda", valorBusqueda)
     col = db[coleccion]
     try:
         id = col.find_one({valorBusqueda : str(valor) })
@@ -83,14 +100,6 @@ class usuarios():
         self.json = json
 
     def logica(self):
-
-        print("self.json", self.json["title"])
-        print("self.tiendaSelect", self.json["tiendaSelect"])
-        print("self.creador", self.json["creador"])
-        print("self.idCreador", self.json["idCreador"])
-        print("self._id", self.json["_id"])
-        # coleccionCompleta = []
-
         json = {
             "_id": self.json["_id"],
             "tiendaSelect": self.json["tiendaSelect"],
@@ -98,8 +107,37 @@ class usuarios():
             "idCreador": self.json["idCreador"],
             "title": self.json["title"]
         }
+        print("json", json)
         res = InsertarMongo("bolsaProductos",json)
         print("resp", res)
         return res
+    
+    def logicaUpdate(self):
+        busqueda  = BuscarMongoGeneric(self.json["_id"], "bolsaProductos" , "_id")
+        
+        try:
+            
+            body = {
+                "typeCategory" : self.json["typeCategory"],
+                "prod" :self.json["prod"],
+                "cantidad" : int(self.json["cantidad"]),
+            }
+            productosList  = busqueda["productosList"]
+            print("productosList", productosList)
+            productosList.append(body)
+            print("productosList FINAK", productosList)
+            resss =  UpdateMongo("bolsaProductos",productosList, self.json["_id"])
+            return resss
+        except:
+            print("no tiene ningun dato")
+            print(self.json)
+            body = [{
+                "typeCategory" : self.json["typeCategory"],
+                "prod" :self.json["prod"],
+                "cantidad" : int(self.json["cantidad"]),
+            }]
+            resss = UpdateMongo("bolsaProductos",body, self.json["_id"])
+            return resss
+
 
 
