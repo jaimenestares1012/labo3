@@ -38,7 +38,7 @@ class resumenRep():
 
 
     def logica(self):
-        pl.figure(figsize=(13,4))
+        pl.figure(figsize=(15,4))
         print("logica")
         res = BuscarMongo("variacionDolar")
         arrayDolar = []
