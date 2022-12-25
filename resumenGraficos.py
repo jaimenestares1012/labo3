@@ -62,7 +62,7 @@ class resumenRep():
             mien = a["fecha"].replace("2022-", "")
             arrayGlobal.append(a["montoTotal"])
             arrayFechas.append(mien)
-        pl.figure(figsize=(20,4))
+        pl.figure(figsize=(15,4))
         pl.plot(arrayFechas, arrayGlobal,  'b--o')
         pl.savefig("data")
         print("-")
