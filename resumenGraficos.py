@@ -38,7 +38,7 @@ class resumenRep():
 
 
     def logica(self):
-        pl.figure(figsize=(15,4))
+        pl.figure(figsize=(14,4))
         print("logica")
         res = BuscarMongo("variacionDolar")
         arrayDolar = []
@@ -53,6 +53,9 @@ class resumenRep():
         print("arrayFechasDolar", arrayFechasDolar, len(arrayFechasDolar))
 
         pl.plot(arrayFechasDolar, arrayDolar ,  'b--o')
+        pl.title("Variación del dólar")
+        pl.xlabel("Precio (S/)")
+        pl.ylabel("Día-Mes")
         pl.savefig("dataDolar")
 
         print("FIN IMAGEN ---- DOLAR")
@@ -62,8 +65,11 @@ class resumenRep():
             mien = a["fecha"].replace("2022-", "")
             arrayGlobal.append(a["montoTotal"])
             arrayFechas.append(mien)
-        pl.figure(figsize=(15,4))
+        pl.figure(figsize=(14,4))
         pl.plot(arrayFechas, arrayGlobal,  'b--o')
+        pl.title("Variación de la canasta")
+        pl.xlabel("Costo total (S/)")
+        pl.ylabel("Día-Mes")
         pl.savefig("data")
         print("-")
         print("-")
