@@ -54,8 +54,8 @@ class resumenRep():
 
         pl.plot(arrayFechasDolar, arrayDolar ,  'b--o')
         pl.title("Variación del dólar")
-        pl.xlabel("Precio (S/)")
-        pl.ylabel("Día-Mes")
+        pl.xlabel("Día - Mes")
+        pl.ylabel("Precio (S/)")
         pl.savefig("dataDolar")
 
         print("FIN IMAGEN ---- DOLAR")
@@ -68,8 +68,8 @@ class resumenRep():
         pl.figure(figsize=(14,4))
         pl.plot(arrayFechas, arrayGlobal,  'b--o')
         pl.title("Variación de la canasta")
-        pl.xlabel("Costo total (S/)")
-        pl.ylabel("Día-Mes")
+        pl.xlabel("Día - Mes")
+        pl.ylabel("Costo total (S/)")
         pl.savefig("data")
         print("-")
         print("-")
