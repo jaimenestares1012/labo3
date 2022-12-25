@@ -71,7 +71,7 @@ class resumenRep():
         try:
             rbase64 = get_as_base64('data.png')
             dbase64 = get_as_base64('dataDolar.png')
-            dbase64 =""
+            # dbase64 =""
             remove("data.png")
             remove("dataDolar.png")
             data = {
