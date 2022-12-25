@@ -5,17 +5,8 @@ import json
 import base64
 
 client = MongoClient("mongodb+srv://user_jaime:XhA7pqTDWKfQy6Nh@micluster.pns9q58.mongodb.net")
-db  = client.get_database("tesis-won")
+db  = client.get_database("catalogos")
 
-def BuscarMongoXNombre(coleccion ,valor):
-    col = db[coleccion]
-    try:
-        col.create_index([('nombre', 'text')])
-        id = col.find({"$text": {"$search": valor}})
-        return id
-    except NameError:
-        print("ERROR")
-        print(NameError)
 
 
 def get_as_base64(url):
@@ -26,13 +17,12 @@ def get_as_base64(url):
 
     # ### de bytes a string
     to_string = image_64_encode.decode("utf-8")
-    print("to_string", to_string)
     return to_string
 
-def BuscarMongo(coleccion ,valor):
+def BuscarMongo(coleccion):
     col = db[coleccion]
     try:
-        id = col.find_one({"nombre": valor})
+        id = col.find()
         return id
     except NameError:
         print("ERROR")
@@ -49,13 +39,23 @@ class resumenRep():
     def logica(self):
         arrayGlobal = []
         arrayFechas = []
+        print("logica")
+        res = BuscarMongo("variacionDolar")
+        arrayDolar = []
+        arrayFechasDolar = []
+        for b in list(res):
+            print("<---->", b)
+            mien2 = b["Fecha"].replace(".2022", "")
+            arrayDolar.append(round(float(b["Último"].replace("," , ".")), 2))
+            arrayFechasDolar.append(mien2.replace(".", "-"))
+
         for a in self.json["data"]:
-            print("<---->")
             mien = a["fecha"].replace("2022-", "")
             arrayGlobal.append(a["montoTotal"])
             arrayFechas.append(mien)
         
-        print("arrayGlobal", arrayGlobal)
+        print("arrayFechasDolar", arrayFechasDolar)
+        print("arrayDolar", arrayDolar)
         # x =[1000,1004,999]
         # y =["2022-12-23", "2022-12-22", "2022-12-21"]
         
@@ -63,9 +63,19 @@ class resumenRep():
         # print("logica", x)
         pl.plot(arrayFechas, arrayGlobal,  'b--o')
         pl.savefig("data")
+        plt_1 = pl.figure(figsize=(13,4))
+        pl.plot(arrayFechasDolar, arrayDolar ,  'b--o')
+        pl.savefig("dataDolar")
+
+
         try:
             rbase64 = get_as_base64('data.png')
-            return rbase64
+            dbase64 = get_as_base64('dataDolar.png')
+            data = {
+                "producto":rbase64,
+                "dolar":dbase64
+            }
+            return data
         except NameError:
             print("errorr")
             print(NameError)

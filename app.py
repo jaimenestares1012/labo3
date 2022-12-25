@@ -288,7 +288,8 @@ def resumen(tipo):
             if data:
                 response ={
                     "codRes": "00",
-                    "data": data
+                    "data": data["producto"],
+                    "dataDolar": data["dolar"]
                 }
                 return response
             else:
