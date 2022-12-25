@@ -60,8 +60,8 @@ class resumenRep():
 
         # x =[1000,1004,999]
         # y =["2022-12-23", "2022-12-22", "2022-12-21"]
-        print("arrayGlobal", arrayDolar)
-        print("arrayFechas", arrayFechasDolar)
+        print("arrayDolar", arrayDolar)
+        print("arrayFechasDolar", arrayFechasDolar)
         print("arrayGlobal", arrayGlobal)
         print("arrayFechas", arrayFechas)
         
