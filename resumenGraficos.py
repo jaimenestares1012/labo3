@@ -45,12 +45,13 @@ class resumenRep():
         arrayDolar = []
         arrayFechasDolar = []
         for b in list(res):
-            print("<---->", b)
+            print("<-- b -->", b)
             mien2 = b["Fecha"].replace(".2022", "")
             arrayDolar.append(round(float(b["Último"].replace("," , ".")), 2))
             arrayFechasDolar.append(mien2.replace(".", "-"))
 
         for a in self.json["data"]:
+            print("<-- a -->  ", a)
             mien = a["fecha"].replace("2022-", "")
             arrayGlobal.append(a["montoTotal"])
             arrayFechas.append(mien)
@@ -59,11 +60,14 @@ class resumenRep():
 
         # x =[1000,1004,999]
         # y =["2022-12-23", "2022-12-22", "2022-12-21"]
+        print("arrayGlobal", arrayDolar)
+        print("arrayFechas", arrayFechasDolar)
+        print("arrayGlobal", arrayGlobal)
+        print("arrayFechas", arrayFechas)
         
-        
+        pl.figure(figsize=(13,4))
         pl.plot(arrayFechas, arrayGlobal,  'b--o')
         pl.savefig("data")
-        pl.figure(figsize=(13,4))
         pl.plot(arrayFechasDolar, arrayDolar ,  'b--o')
         pl.savefig("dataDolar")
 
@@ -71,9 +75,12 @@ class resumenRep():
         try:
             rbase64 = get_as_base64('data.png')
             dbase64 = get_as_base64('dataDolar.png')
-            # dbase64 =""
             remove("data.png")
             remove("dataDolar.png")
+            arrayGlobal = []
+            arrayFechas = []
+            arrayDolar = []
+            arrayFechasDolar = []
             data = {
                 "producto":rbase64,
                 "dolar":dbase64
