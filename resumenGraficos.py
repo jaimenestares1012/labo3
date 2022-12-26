@@ -46,7 +46,9 @@ class resumenRep():
         for b in list(res):
             mien2 = b["Fecha"].replace(".2022", "")
             arrayDolar.append(round(float(b["Último"].replace("," , ".")), 2))
-            arrayFechasDolar.append(mien2.replace(".", "-"))
+            temp = mien2.replace(".", "-").split("-")
+            fechaModificadad = temp[0] + "-" + temp[1]
+            arrayFechasDolar.append(fechaModificadad)
         print("-")
         print("-")
         print("arrayDolar", arrayDolar, len(arrayDolar))
