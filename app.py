@@ -95,7 +95,7 @@ def poderAdquisitivo(tipo):
         try:
             numeroDias = json["numeroDias"]
         except:
-            numeroDias = 10
+            numeroDias = 30
             
         inicio = poderWon(numeroDias, productos) 
         datos = inicio.logica()
