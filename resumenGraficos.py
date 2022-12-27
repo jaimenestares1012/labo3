@@ -23,7 +23,7 @@ def get_as_base64(url):
 def BuscarMongo(coleccion):
     col = db[coleccion]
     try:
-        id = col.find().limit(30)
+        id = col.find().limit(25)
         return id
     except NameError:
         print("ERROR")
