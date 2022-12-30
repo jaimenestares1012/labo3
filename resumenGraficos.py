@@ -131,7 +131,8 @@ class resumenRep():
             temp = mien2.replace(".", "-").split("-")
             fechaModificadad = temp[2] + "-" + temp[1] + "-" + temp[0] 
             datos = {
-                fechaModificadad: temporal[""]
+                fechaModificadad: temporal[""],
+                "ultimo": round(float(b["Último"].replace("," , ".")), 2)
             }
             # arrayDolar.append(round(float(b["Último"].replace("," , ".")), 2))
            
@@ -275,9 +276,12 @@ class resumenRep():
 
 
                         variacion = ""
+                        ultimoPrice = 0
                         for f in arrayFechasDolar:
                             try:
+                                print("f", f)
                                 variacion = f[a]
+                                ultimoPrice = f["ultimo"]
                                 print("variacio", variacion)
                             except:
                                 print("no es")
@@ -296,6 +300,8 @@ class resumenRep():
 
 
                         dataParcial["variacionDolar"] = variacion.replace("%", "")
+                         
+                        dataParcial["ultimoPrice"] = ultimoPrice
                         dataParcial["variacionDolarBackground"] = background3
                         dataxdiaGlobal.append(dataParcial)
                         
