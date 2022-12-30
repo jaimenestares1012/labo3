@@ -203,7 +203,7 @@ class resumenRep():
                         variacionC = 0.0
                     background = ""
                     if  variacionC < 0:
-                        background = "green"
+                        background = "#008000"
                     elif variacionC == 0  :
                         background = ""
                     else:
@@ -247,7 +247,7 @@ class resumenRep():
                         dataParcial["varMonetario"] = round(variacion2c, 2)
                         background2 = ""
                         if  variacion2c < 0:
-                            background2 = "green"
+                            background2 = "#008000"
                         elif variacion2c == 0  :
                             background2 = ""
                         else:
