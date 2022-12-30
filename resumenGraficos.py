@@ -203,11 +203,11 @@ class resumenRep():
                         variacionC = 0.0
                     background = ""
                     if  variacionC < 0:
-                        background = "#008000"
+                        background = "#D6EAD6"
                     elif variacionC == 0  :
                         background = ""
                     else:
-                        background= "red"
+                        background= "#D97F74"
                     datos = {
                         "producto": b["nombre"],
                         "url": b["url"],
@@ -247,11 +247,11 @@ class resumenRep():
                         dataParcial["varMonetario"] = round(variacion2c, 2)
                         background2 = ""
                         if  variacion2c < 0:
-                            background2 = "#008000"
+                            background2 = "#D6EAD6"
                         elif variacion2c == 0  :
                             background2 = ""
                         else:
-                            background2= "red"
+                            background2= "#D97F74"
                         dataParcial["background"] = background2
                         sumaTotalDiaAnterior = dataParcial["montoTotal"]
 
