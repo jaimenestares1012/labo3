@@ -132,7 +132,7 @@ class resumenRep():
             fechaModificadad = temp[2] + "-" + temp[1] + "-" + temp[0] 
             datos = {
                 fechaModificadad: temporal[""],
-                "ultimo": round(float(b["Último"].replace("," , ".")), 2)
+                "ultimo": round(float(b["Último"].replace("," , ".")), 3)
             }
             # arrayDolar.append(round(float(b["Último"].replace("," , ".")), 2))
            
