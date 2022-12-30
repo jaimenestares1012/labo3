@@ -121,6 +121,24 @@ class resumenRep():
         fechasDisponibles = []
         i = 0
         dias = int(26)
+        print("logica")
+        res = BuscarMongo("variacionDolar")
+        arrayDolar = []
+        arrayFechasDolar = []
+        for b in list(res):
+            mien2 = b["Fecha"]
+            temporal =  b["% var"]
+            temp = mien2.replace(".", "-").split("-")
+            fechaModificadad = temp[2] + "-" + temp[1] + "-" + temp[0] 
+            datos = {
+                fechaModificadad: temporal[""]
+            }
+            # arrayDolar.append(round(float(b["Último"].replace("," , ".")), 2))
+           
+            
+            arrayFechasDolar.append(datos)
+
+        print("arrayFechasDolar", arrayFechasDolar)
         while i <= dias:
             fechaDateTime = datetime.now() - timedelta(i)
             fechaExtraccion = fechaDateTime.strftime("%Y-%m-%d %H:%M:%S") 
@@ -240,7 +258,7 @@ class resumenRep():
                 
                 if len(dataParcial["productosXFecha"])> 0 and contador == it:
                     try:
-                        print("Insert data")
+                        # print("Insert data", b)
                         variacion2p = ((dataParcial["montoTotal"] - sumaTotalDiaAnterior)/sumaTotalDiaAnterior)*100
                         variacion2c = (dataParcial["montoTotal"] - sumaTotalDiaAnterior)
                         dataParcial["varPorcentual"] = round(variacion2p, 2)
@@ -255,7 +273,32 @@ class resumenRep():
                         dataParcial["background"] = background2
                         sumaTotalDiaAnterior = dataParcial["montoTotal"]
 
+
+                        variacion = ""
+                        for f in arrayFechasDolar:
+                            try:
+                                variacion = f[a]
+                                print("variacio", variacion)
+                            except:
+                                print("no es")
+
+
+                        background3 = ""
+                        try:
+                            if  float(variacion.replace("%", "").replace(",", ".")) < 0:
+                                background3 = "#D6EAD6"
+                            elif float(variacion.replace("%", "").replace(",", ".")) == 0  :
+                                background3 = ""
+                            else:
+                                background3= "#D97F74"
+                        except:
+                            pass
+
+
+                        dataParcial["variacionDolar"] = variacion.replace("%", "")
+                        dataParcial["variacionDolarBackground"] = background3
                         dataxdiaGlobal.append(dataParcial)
+                        
                     except:
                         print("NOS FUIMOS A LA MIRD")
                 dataParcial = {}
