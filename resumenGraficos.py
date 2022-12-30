@@ -201,12 +201,18 @@ class resumenRep():
                     except:
                         variacionP = 0.0
                         variacionC = 0.0
+                    background = ""
+                    if  variacionC < 0:
+                        background = "green"
+                    else:
+                        background= "red"
                     datos = {
                         "producto": b["nombre"],
                         "url": b["url"],
                         "precio": precioLimpio,
                         "cantidad": b["cantidad"],
                         "sumaParcial": round(sumaParcial, 2),
+                        "background": background,
                         "variacionPorcentual": round(variacionP, 2),
                         "variacionMonetariaProducto": round(variacionC, 2),
                         "variacionMonetariaSubTotal": round(variacionC * float(b["cantidad"]), 2)
@@ -237,6 +243,12 @@ class resumenRep():
                         variacion2c = (dataParcial["montoTotal"] - sumaTotalDiaAnterior)
                         dataParcial["varPorcentual"] = round(variacion2p, 2)
                         dataParcial["varMonetario"] = round(variacion2c, 2)
+                        background2 = ""
+                        if  variacion2c < 0:
+                            background2 = "green"
+                        else:
+                            background2= "red"
+                        dataParcial["background"] = background2
                         sumaTotalDiaAnterior = dataParcial["montoTotal"]
 
                         dataxdiaGlobal.append(dataParcial)
