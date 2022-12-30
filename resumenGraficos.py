@@ -263,5 +263,5 @@ class resumenRep():
         
         
         # for d in dataxdiaGlobal
-        
-        return dataxdiaGlobal 
+        # fechasDisponibles = fechasDisponibles[::-1]
+        return dataxdiaGlobal[::-1]
