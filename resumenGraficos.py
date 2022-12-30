@@ -3,10 +3,13 @@ from datetime import datetime, timedelta
 import matplotlib.pyplot as pl
 import json
 import base64
+import time
 from os import remove
 
 client = MongoClient("mongodb+srv://user_jaime:XhA7pqTDWKfQy6Nh@micluster.pns9q58.mongodb.net")
 db  = client.get_database("catalogos")
+db2  = client.get_database("tesis-won")
+
 
 
 
@@ -24,6 +27,17 @@ def BuscarMongo(coleccion):
     col = db[coleccion]
     try:
         id = col.find().limit(25)
+        return id
+    except NameError:
+        print("ERROR")
+        print(NameError)
+    print("buscat")
+
+
+def BuscarMongo2(coleccion ,valor):
+    col = db2[coleccion]
+    try:
+        id = col.find_one({"nombre": valor})
         return id
     except NameError:
         print("ERROR")
@@ -99,3 +113,139 @@ class resumenRep():
             print("errorr")
             print(NameError)
             return {}
+
+
+
+
+    def reporteMef(self):
+        fechasDisponibles = []
+        i = 0
+        dias = int(26)
+        while i <= dias:
+            fechaDateTime = datetime.now() - timedelta(i)
+            fechaExtraccion = fechaDateTime.strftime("%Y-%m-%d %H:%M:%S") 
+            fechaExtraccion2 = fechaExtraccion.split(" ")
+            fechaExtraccionclean = fechaExtraccion2[0]
+            fechasDisponibles.append(fechaExtraccionclean)
+            i = i + 1
+        data = []
+        fechasDisponibles = fechasDisponibles[::-1]
+        dataGlobal =  []
+        
+        for a in self.json["productosList"]:
+            print("<-----------  Inicio iter------->")
+            # arrayPrecios = []
+            # print("a", a)
+            busquedaProductos = BuscarMongo2(a["typeCategory"], a["prod"])
+            precioAnterior = 1
+            precioInicial = ""
+            for fecha in fechasDisponibles:
+               
+                try:
+                    precioNuevo=busquedaProductos[fecha]
+                    precioNuevo = precioNuevo.split("S/")
+                    precioNuevo = precioNuevo[1].replace(" ", "")
+                    if "x" in precioNuevo:
+                        precioRoto = precioNuevo.split("x")
+                        precioNuevo = precioRoto[0]
+                    else:
+                        precioNuevo = float(precioNuevo)
+                    
+                    variacionp = ((precioNuevo - precioAnterior)/precioAnterior)*100
+                    variacionc = (precioNuevo - precioAnterior)
+                    nombreNuevoP=fecha+"varP"
+                    nombreNuevoC=fecha+"varC"
+                    busquedaProductos[nombreNuevoP] = variacionp
+                    busquedaProductos[nombreNuevoC] = variacionc
+                    precioAnterior = precioNuevo
+                except:
+                    # precioAnterior = precioNuevo
+                    # print("No existe data de esta fecha")
+                    pass
+            
+            # print("busquedaProductos]", busquedaProductos)
+            busquedaProductos["cantidad"] = a["cantidad"]
+            data.append(busquedaProductos)
+
+
+        print(" FIN-----> siguiente paso")
+
+        dataxdiaGlobal =[]
+        sumaTotalDiaAnterior = 1
+        for a in fechasDisponibles:
+            print("<----------------------------->")
+            print("Fecha", a)
+            print("<----------------------------->")
+            dataxdia =[]
+            contador = len(data)
+            it = 1
+            suma = 0
+            for b in data:
+                try:
+                    price = b[a]
+                    price = price.split("S/")
+                    precioLimpio = price[1].replace(" ", "")
+                    if "x" in precioLimpio:
+                        precioRoto = precioLimpio.split("x")
+                        precioLimpio = precioRoto[0]
+                    else:
+                        precioLimpio = float(precioLimpio)
+                    sumaParcial = int(b["cantidad"]) * float(precioLimpio)
+                    variacionP = 0.0
+                    variacionP = 0.0
+                    try:
+                        campo1 = a+"varP"
+                        campo2 = a+"varC"
+                        variacionP = b[campo1]
+                        variacionC = b[campo2]
+                    except:
+                        variacionP = 0.0
+                        variacionC = 0.0
+                    datos = {
+                        "producto": b["nombre"],
+                        "url": b["url"],
+                        "precio": precioLimpio,
+                        "cantidad": b["cantidad"],
+                        "sumaParcial": round(sumaParcial, 2),
+                        "variacionPorcentual": round(variacionP, 2),
+                        "variacionMonetariaProducto": round(variacionC, 2),
+                        "variacionMonetariaSubTotal": round(variacionC * float(b["cantidad"]), 2)
+                    }
+                    suma = suma + round(sumaParcial, 2)
+                    dataxdia.append(datos)
+                    datos = {}
+                except:
+                    datos = {}
+                
+
+
+
+                dataParcial = {
+                    "fecha": a,
+                    "montoTotal": round(suma, 2),
+                    "numeroProductos": len(dataxdia),
+                    "productosXFecha":dataxdia
+                }
+                
+                
+                
+                
+                if len(dataParcial["productosXFecha"])> 0 and contador == it:
+                    try:
+                        print("Insert data")
+                        variacion2p = ((dataParcial["montoTotal"] - sumaTotalDiaAnterior)/sumaTotalDiaAnterior)*100
+                        variacion2c = (dataParcial["montoTotal"] - sumaTotalDiaAnterior)
+                        dataParcial["varPorcentual"] = round(variacion2p, 2)
+                        dataParcial["varMonetario"] = round(variacion2c, 2)
+                        sumaTotalDiaAnterior = dataParcial["montoTotal"]
+
+                        dataxdiaGlobal.append(dataParcial)
+                    except:
+                        print("NOS FUIMOS A LA MIRD")
+                dataParcial = {}
+                it = it + 1         
+        
+        
+        # for d in dataxdiaGlobal
+        
+        return dataxdiaGlobal 

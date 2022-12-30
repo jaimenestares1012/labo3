@@ -302,18 +302,8 @@ def resumen(tipo):
             return { "codRes": "99", "data": "error interno" }
     if tipo == 2:
         print("tipo 2")
-        # json = request.get_json()
-        # colecciones = json["colecciones"]
-        # categorias = json["categorias"]
         try:
             print("")
-            # instancia = getCatalogos(colecciones, categorias) 
-            # data = instancia.logica2()
-            # response = {
-            #     "codRes": "00",
-            #     "data": data
-            #     }
-            # return response
         except:
             return { "codRes": "99", "data": "error interno" }
     else:
@@ -321,6 +311,21 @@ def resumen(tipo):
         return { "codRes": "99", "data": "tipo incorrecto" }
 
 
+
+@app.route('/get/reporte/<int:tipo>', methods=[ 'POST'])
+def reportePoder(tipo):
+    if tipo == 1:
+        json = request.get_json()
+        inicio = resumenRep(json) 
+        datos = inicio.reporteMef()
+        data={
+            "codRes": "00",
+            "data": datos
+        }
+        return data
+       
+    else:
+        return "tipo incorrecto"
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8080)
