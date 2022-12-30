@@ -204,6 +204,8 @@ class resumenRep():
                     background = ""
                     if  variacionC < 0:
                         background = "green"
+                    elif variacionC == 0  :
+                        background = ""
                     else:
                         background= "red"
                     datos = {
@@ -246,6 +248,8 @@ class resumenRep():
                         background2 = ""
                         if  variacion2c < 0:
                             background2 = "green"
+                        elif variacion2c == 0  :
+                            background2 = ""
                         else:
                             background2= "red"
                         dataParcial["background"] = background2
